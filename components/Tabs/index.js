@@ -9,6 +9,7 @@
 //    <div class="tab">topic here</div>
 
 axios.get("https://lambda-times-backend.herokuapp.com/topics").then((response) => {
+    console.log(response);
     const topics = response.data["topics"];
     const parent = document.querySelector(".topics");
     topics.forEach((topic) => {
