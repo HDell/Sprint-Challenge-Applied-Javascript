@@ -1,7 +1,7 @@
 // STEP 3: Create Article cards.
 // -----------------------
 // Send an HTTP GET request to the following address: https://lambda-times-backend.herokuapp.com/articles
-// Stduy the response data you get back, closely.
+// Study the response data you get back, closely.
 // You will be creating a component for each 'article' in the list.
 // This won't be as easy as just iterating over an array though.
 // Create a function that will programmatically create the following DOM component:
@@ -17,3 +17,54 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+
+axios.get("https://lambda-times-backend.herokuapp.com/articles")
+    .then((response) => {
+        const articleParents = response.data["articles"];
+        // console.log(articleParents);
+        // console.log(articleParents["bootstrap"]);
+        for (let articleName in articleParents) {
+            articleParents[articleName].forEach((article) => {
+                tabCreator(article);
+            })
+        }
+        // console.log(selectedTab);
+
+        // Array.from(articleParents).forEach((articleParent) => {
+        //     console.log(articleParent);
+        //     Array.from(articleParent).forEach((articleChild) => {
+        //         cardsContainer.appendChild(articleChild);
+        //     });
+        // });
+});
+
+function tabCreator(article) { //tab component
+    //create elements
+    const card = document.createElement("div");
+    const headline = document.createElement("div");
+    const author = document.createElement("div");
+    const imgContainer = document.createElement("div");
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    //add class names
+    card.classList.add("card");
+    headline.classList.add("headline");
+    author.classList.add("author");
+    imgContainer.classList.add("img-container");
+    //add text content
+    headline.textContent = article["headline"];
+    span.textContent = article["authorName"];
+    //add attribute
+    img.src = article["authorPhoto"];
+    //append elements
+    imgContainer.appendChild(img);
+    author.appendChild(imgContainer);
+    author.appendChild(span);
+    card.appendChild(headline);
+    card.appendChild(author);
+    //attach to DOM
+    const cardsContainer = document.querySelector(".cards-container");
+    cardsContainer.appendChild(card);
+    //return card
+    return card;
+}
